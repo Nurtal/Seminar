@@ -66,7 +66,70 @@ But first we are going to add a step: the discretization.
 So why perform a discretization on our data ?
 Well, many machine learning algorithm work only on discrete data, for exemple
 the rule generation method we use need discrete data as input.
-And Discrete data can also improve the efficiency of the algorithme, correct the skewed distribution, reduce the influence of outliers and sometimes can even perform a kinf of feature selection.
+And Discrete data can also improve the efficiency of the algorithme, correct the skewed distribution, reduce the influence of outliers and sometimes can even behave as a feature selection method.
 
 ##SLIDE 11###
+So my first attempt to discretize the data was to design this algorithm.
+The idea is to perform a random discretization an the entire dataset and considere the discretize dataset as an "individual". We create multiple individual whith different discretization to form a population and then i basicaly run a genetic algorithm where 3 clasifiers act as a scoring function.
+
+It was kind of greedy, I implement a multi-threading approach for the scoring part of the algorithm and ultimately let it run for a while.
+
+Well, also a funny story here: first time a tested it, i let it run over a few days and i was pleased to found that the algorithm had learn a discretization that can lead to a score of 80% good classifications among patients (sick vs control). But then i remember that I have not yet implement a cross validation method for the classifier and that the dataset i was using contained about 20% control ...
+
+Long story short, the algorithm learn that if he tag every patients as sick he had 8 chances out of 10 to give the correct answer ... 
+
+
+##SLIDE12### The Ameva Algorithm
+While this stuff was running i used my time to read a few articles on the subject and I found a few algorithm who seems to do a very good job, one of them is the Ameva algorithm.
+
+[FIXEME]
+
+##SLIDE13###
+Well now that we have discretized data, here are the results of a selection features with the Boruta algorithm we have seen earlier. 
+
+As you can see the analysis was perform on the 6 first panel, only on phase 1 patients.
+
+for panel 1 we rejected only [FIXEME] % of the features,
+[FIXEME], for panel 2
+[FIXEME], for panel 3
+[FIXEME], for panel 4
+[FIXEME], for panel 5
+and [FIXEME] for panel 6
+
+##SLIDE 14### Results - again
+To summerize, if we are looking at all the panels, we found [FIXEME] of rejected features ans [FIXEME] % of saved features.
+
+Each of the features have a score according to its importance and it's possible to rank them as follow.
+
+You see for exemple for panel 1 that this one is more relevant than this one ...
+and so on for the orther panels.
+
+##SLIDE 15###
+Once we have selected the features that we thought are intersting we can go trough the rules generation process.
+
+First, we try to find rules that can identify the diagnosis of a patient using only cytometry data, as you can see we generate a lot of rules, we applied a filter, make sure that the right term of the equation is a diagnosis and see the results.
+
+And the results are not really good, as you can see we found rules with high confidence but a very low support, it's seem complicate to predict a diagnosis only with this kind of data.
+
+##SLIDE 16###
+But, if are looking for rules that does not necessaraly predict a diagnosis we found more interesting rules, with higher support and still strong confidence.
+
+This rules could be intersing to understand the structure of the dataset.
+
+##SLIDE 17###
+Discretization is a key process in this workflow.
+I have tried several algorithms and talk with my supervisors about a few improvements for this particular step.
+
+The first thing we can do is to map the variable's values to a 0-1 interval and use this representation to have a probabilistic approach.
+
+The second things we want to do is to use the process of rules extraction as a scoring method for the discretization: we want to kow if the discretization we used is at the origin at the apparition or disparition of an information, in this case: a rule.
+
+##SLIDE 18###
+We have also a few other things to investigate:
+Implement an inference engine, I am probably going to do that over the summer
+Use more data, not only flow cytometry stuff.
+Inlcude patients from Inception phase.
+
+##SLIDE 19###
+thank for your time.
 
